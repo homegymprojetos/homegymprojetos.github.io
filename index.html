@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Home Gym</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Projetos de academia em casa com a lista de equipamentos escolhida por personal trainer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: uma coluna de leitura no celular; cada projeto é uma "garagem" com antes/depois, depois as opções com a lista de peças. Faixa amarela = a faixa da parede do projeto. */
+:root{
+  --bg:#EDEEEC;        /* concreto claro */
+  --surface:#FFFFFF;
+  --ink:#1D2124;       /* piso de borracha */
+  --muted:#5C6469;
+  --line:#D3D6D4;
+  --stripe:#F2C230;    /* faixa de segurança */
+  --stripe-ink:#1D2124;
+  --btn:#1D2124; --btn-ink:#FFFFFF;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151819;--surface:#1F2325;--ink:#ECEDEB;--muted:#A3AAAD;--line:#30363A;
+  --stripe:#F2C230;--stripe-ink:#151819;--btn:#F2C230;--btn-ink:#151819;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151819;--surface:#1F2325;--ink:#ECEDEB;--muted:#A3AAAD;--line:#30363A;
+  --stripe:#F2C230;--stripe-ink:#151819;--btn:#F2C230;--btn-ink:#151819;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--f-body)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.01em;line-height:1;margin:0;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--stripe);outline-offset:2px}
+
+header{padding-block:28px 20px}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.brand h1{font-size:clamp(2.6rem,11vw,4rem);font-weight:800}
+.brand span{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header p{margin:10px 0 0;max-width:34em;color:var(--muted)}
+.stripe{height:14px;background:var(--stripe)}
+
+.project{padding-block:28px 8px;display:grid;gap:18px}
+.eyebrow{font-family:var(--f-display);font-weight:600;font-size:.95rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.project h2{font-size:clamp(2rem,8vw,2.8rem);font-weight:800}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.facts li{font-size:.9rem;font-weight:500;border:1px solid var(--line);background:var(--surface);padding:4px 10px;border-radius:999px}
+
+/* antes/depois */
+.ba{position:relative;aspect-ratio:1/1;max-width:100%;overflow:hidden;border-radius:6px;background:var(--line);user-select:none}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ba .after{clip-path:inset(0 0 0 var(--cut,50%))}
+.ba .handle{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:3px;margin-left:-1.5px;background:var(--stripe);pointer-events:none}
+.ba .handle::after{content:"◀ ▶";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--stripe);color:var(--stripe-ink);font-size:.7rem;font-weight:700;padding:8px 9px;border-radius:999px;white-space:nowrap}
+.ba .tag{position:absolute;bottom:10px;font-family:var(--f-display);font-weight:800;font-size:.95rem;letter-spacing:.08em;background:rgba(20,22,24,.78);color:#fff;padding:3px 9px;border-radius:3px}
+.ba .tag.l{left:10px}.ba .tag.r{right:10px}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.hint{font-size:.85rem;color:var(--muted);margin:-8px 0 0}
+
+/* opções */
+.options{display:grid;gap:22px;padding-block:8px 28px}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.opt img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.opt-body{padding:18px 16px 8px;display:grid;gap:6px}
+.opt-num{display:inline-block;width:max-content;font-family:var(--f-display);font-weight:800;font-size:.9rem;letter-spacing:.1em;background:var(--stripe);color:var(--stripe-ink);padding:2px 8px;border-radius:3px}
+.opt h3{font-size:1.9rem;font-weight:800}
+.opt-body p{margin:0;color:var(--muted)}
+.items{list-style:none;margin:8px 0 0;padding:0}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.item b{font-weight:600}
+.item small{display:block;color:var(--muted);font-size:.86rem;line-height:1.4}
+.buy{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:6px 12px;border-radius:6px;background:var(--btn);color:var(--btn-ink);text-decoration:none;font-weight:600;font-size:.88rem;line-height:1.15;text-align:center}
+.buy em{font-style:normal;font-weight:400;font-size:.7rem;opacity:.8}
+.buy[aria-disabled="true"]{background:transparent;color:var(--muted);border:1px dashed var(--line);font-weight:500}
+@media (max-width:380px){.item{grid-template-columns:1fr}.buy{width:100%}}
+
+.cta{background:var(--ink);color:var(--bg)}
+.cta .wrap{padding-block:30px;display:grid;gap:10px}
+.cta h2{font-size:clamp(1.8rem,7vw,2.4rem);font-weight:800}
+.cta p{margin:0;max-width:34em;opacity:.85}
+.cta strong{background:var(--stripe);color:var(--stripe-ink);padding:0 6px;border-radius:3px}
+
+footer .wrap{padding-block:22px 36px;font-size:.84rem;color:var(--muted);display:grid;gap:8px}
+footer p{margin:0;max-width:60em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="wrap">
+  <div class="brand"><h1>Home Gym</h1><span>academia em casa</span></div>
+  <p>Seu espaço parado vira academia. Cada projeto traz a lista das peças escolhidas por personal trainer, com o link de cada uma.</p>
+</header>
+<div class="stripe" role="presentation"></div>
+
+<main id="projetos"></main>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Quer o projeto do seu espaço?</h2>
+    <p>Manda uma foto do canto e as medidas com a palavra <strong>PROJETO</strong> no direct do Instagram. Eu monto as opções pro seu tamanho e pro seu objetivo.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>#publi</b> · Os botões levam a anúncios no Mercado Livre com link de afiliado. Posso receber comissão pelas compras, sem custo extra pra você.</p>
+    <p>Imagens ilustrativas geradas por IA. Preço, estoque e frete valem o que está no anúncio na hora da compra.</p>
+  </div>
+</footer>
+
+<script>
+/* Para pôr um link: cole o meli.la do painel de afiliado no campo "link". Vazio = "Link em breve". */
+const PROJETOS = [
+  {
+    id: "garagem-15m2",
+    numero: 1,
+    titulo: "Garagem 15 m²",
+    fatos: ["Garagem coberta", "15 m²", "Piso de borracha", "Espelho na parede", "TV pra treinar junto"],
+    antes: "antes.jpg",
+    depois: "depois.jpg",
+    opcoes: [
+      {
+        nome: "Essencial",
+        img: "opcao-1.jpg",
+        resumo: "Peso livre pra treinar o corpo todo. Ocupa só um canto e guarda fácil.",
+        itens: [
+          { nome: "Halteres ajustáveis 40 kg", uso: "Supino, remada, agachamento e afundo com uma peça só", link: "https://meli.la/1U3yF4A" },
+          { nome: "Barra 1,20 m + anilhas 20 kg", uso: "Agachamento, terra e remada com barra", link: "https://meli.la/2D4Wiqn" },
+          { nome: "Step", uso: "Subida, búlgaro e cardio sem impacto alto", link: "https://meli.la/2CM63nh" },
+          { nome: "Caneleiras 5 kg", uso: "Glúteo e posterior de coxa no solo", link: "https://meli.la/2UBoCeZ" },
+          { nome: "Kit de elásticos", uso: "Aquecimento e ativação de glúteo e ombro", link: "https://meli.la/2chWTxP" },
+          { nome: "Colchonete", uso: "Abdômen, alongamento e mobilidade", link: "https://meli.la/2qBzvrn" },
+          { nome: "Piso de borracha", uso: "Protege o chão e abafa o barulho do peso", link: "https://meli.la/13jkj4g" },
+          { nome: "Espelho grande", uso: "Pra você ver a execução quando treina sozinho", link: "https://meli.la/22gZNeA" },
+          { nome: "Smart TV 50 a 55 pol. + suporte de parede", uso: "Pra seguir a aula e o treino na tela, sem segurar o celular", link: "https://meli.la/2TUXPAC" }
+        ]
+      },
+      {
+        nome: "Completa",
+        img: "opcao-2.jpg",
+        resumo: "Estação com polia, banco com extensora e flexora, barra com suporte e bike de spinning.",
+        itens: [
+          { nome: "Mono cross de parede", uso: "Puxada, tríceps e exercícios de cabo", link: "https://meli.la/2ZoqHg8" },
+          { nome: "Banco supino com flexora e extensora", uso: "Supino e coxa no mesmo banco", link: "https://meli.la/28J5muE" },
+          { nome: "Barra 1,50 m + anilhas 4 × 10 kg", uso: "Carga pra supino e agachamento", link: "https://meli.la/2ED81Wz" },
+          { nome: "Halteres ajustáveis 40 kg", uso: "Troca de carga rápida entre exercícios", link: "https://meli.la/1U3yF4A" },
+          { nome: "Bike de spinning", uso: "Cardio em meio metro quadrado", link: "https://meli.la/1HxFZ5z" },
+          { nome: "Step", uso: "Subida, búlgaro e aula de step em casa", link: "https://meli.la/2CM63nh" },
+          { nome: "Smart TV 50 a 55 pol. + suporte de parede", uso: "Pra seguir a aula e o treino na tela, sem segurar o celular", link: "https://meli.la/2TUXPAC" },
+          { nome: "Piso de borracha", uso: "Protege o chão e abafa o barulho do peso", link: "https://meli.la/13jkj4g" },
+          { nome: "Espelho grande", uso: "Pra você ver a execução quando treina sozinho", link: "https://meli.la/22gZNeA" }
+        ]
+      }
+    ]
+  }
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const botao = it => it.link
+  ? `<a class="buy" href="${esc(it.link)}" target="_blank" rel="noopener sponsored">Ver no Mercado Livre<em>${esc(new URL(it.link).hostname.replace(/^www\./,""))}</em></a>`
+  : `<span class="buy" aria-disabled="true">Link em breve</span>`;
+
+document.getElementById("projetos").innerHTML = PROJETOS.map(p => `
+  <section class="wrap project" id="${p.id}">
+    <div class="eyebrow">Projeto nº ${p.numero}</div>
+    <h2>${esc(p.titulo)}</h2>
+    <ul class="facts">${p.fatos.map(f => `<li>${esc(f)}</li>`).join("")}</ul>
+    <div class="ba" style="--cut:50%">
+      <img src="${p.antes}" alt="${esc(p.titulo)} vazia, antes do projeto">
+      <img class="after" src="${p.depois}" alt="${esc(p.titulo)} montada como academia">
+      <div class="handle"></div>
+      <span class="tag l">ANTES</span><span class="tag r">DEPOIS</span>
+      <input type="range" min="0" max="100" value="50" id="ba-${p.id}" aria-label="Arraste pra comparar antes e depois">
+    </div>
+    <p class="hint">Arraste a imagem pra ver o antes e o depois.</p>
+  </section>
+  <div class="wrap options">
+    ${p.opcoes.map((o, i) => `
+      <article class="opt" id="${p.id}-opcao-${i+1}">
+        <img src="${o.img}" alt="${esc(p.titulo)}, opção ${esc(o.nome)}" loading="lazy">
+        <div class="opt-body">
+          <span class="opt-num">OPÇÃO ${i+1}</span>
+          <h3>${esc(o.nome)}</h3>
+          <p>${esc(o.resumo)}</p>
+        </div>
+        <ul class="items">
+          ${o.itens.map(it => `<li class="item"><div><b>${esc(it.nome)}</b><small>${esc(it.uso)}</small></div>${botao(it)}</li>`).join("")}
+        </ul>
+      </article>`).join("")}
+  </div>`).join("");
+
+document.querySelectorAll(".ba input").forEach(r => {
+  const box = r.closest(".ba");
+  r.addEventListener("input", () => box.style.setProperty("--cut", r.value + "%"));
+});
+</script>
+
+</body>
+</html>
